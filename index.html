@@ -182,66 +182,35 @@ body {
       border: 1px solid #8b0000;
     }
 
-    .hearts {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: -1;
-    }
+.hearts {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
 
-    .heart {
-      position: absolute;
-      width: 15px;
-      height: 15px;
-      background-color: #7b0000;
-      transform: rotate(45deg);
-      opacity: 0;
-      animation: float 4s ease-in-out infinite;
-    }
+.spidey {
+  position: absolute;
+  animation: floatSpidey ease-in-out infinite;
+  pointer-events: none;
+  user-select: none;
+}
 
-    .heart:before,
-    .heart:after {
-      content: '';
-      position: absolute;
-      width: 15px;
-      height: 15px;
-      background-color: #7b0000;
-      border-radius: 50%;
-    }
+@keyframes floatSpidey {
+  0% {
+    transform: translateY(20px) scale(0.8);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-120vh) scale(1.2);
+    opacity: 0;
+  }
+}
 
-    .heart:before {
-      top: -7.5px;
-      left: 0;
-    }
-
-    .heart:after {
-      left: -7.5px;
-      top: 0;
-    }
-    
-    .heart:nth-child(odd) {
-      background-color: #8b0000;
-    }
-    
-    .heart:nth-child(odd):before,
-    .heart:nth-child(odd):after {
-      background-color: #8b0000;
-    }
-
-    @keyframes float {
-      0% {
-        transform: translateY(0) rotate(45deg);
-        opacity: 0;
-      }
-      50% {
-        opacity: 0.8;
-      }
-      100% {
-        transform: translateY(-100px) rotate(45deg);
-        opacity: 0;
-      }
-    }
     
     .decoration {
       position: absolute;
@@ -373,21 +342,29 @@ Aku bingung mau kasih wish apa lagi, tapi intinya aku mau kamu selalu happy, seh
     }
 
     // Function to create floating hearts
-    function createHearts(pageId) {
-      const heartsContainer = document.getElementById('hearts' + pageId.substring(4));
-      heartsContainer.innerHTML = '';
-      
-      for (let i = 0; i < 80; i++) {
-        const heart = document.createElement('div');
-        heart.className = 'heart';
-        heart.style.left = Math.random() * 100 + '%';
-        heart.style.bottom = Math.random() * 100 + '%';
-        heart.style.opacity = 0;
-        heart.style.animationDelay = Math.random() * 5 + 's';
-        heart.style.transform = `scale(${0.5 + Math.random()}) rotate(45deg)`;
-        heartsContainer.appendChild(heart);
-      }
-    }
+function createHearts(pageId) {
+  const heartsContainer = document.getElementById(
+    'hearts' + pageId.substring(4)
+  );
+  heartsContainer.innerHTML = '';
+
+  const icons = ['🕷️', '🕸️']; // bisa tambah 🕸️🕷️
+
+  for (let i = 0; i < 60; i++) {
+    const spidey = document.createElement('span');
+    spidey.className = 'spidey';
+
+    spidey.textContent = icons[Math.floor(Math.random() * icons.length)];
+    spidey.style.left = Math.random() * 100 + '%';
+    spidey.style.bottom = Math.random() * 100 + '%';
+    spidey.style.opacity = 0;
+    spidey.style.fontSize = 14 + Math.random() * 18 + 'px';
+    spidey.style.animationDelay = Math.random() * 5 + 's';
+    spidey.style.animationDuration = 4 + Math.random() * 4 + 's';
+
+    heartsContainer.appendChild(spidey);
+  }
+}
 
     // Add confetti effect to the final message
     function addConfetti() {
